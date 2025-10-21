@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Онлайн-магазин книг</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background-color: #fafafa;
+        }
+        h1 {
+            color: #333;
+        }
+        .book {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .book-title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .book-author {
+            color: #777;
+        }
+        .book-price {
+            color: green;
+            font-weight: bold;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<h1>Каталог книг</h1>
+
+<div id="book-list"></div>
+
+<script>
+    // Загружаем список книг с API
+    fetch('/api/books/')
+        .then(response => response.json())
+        .then(books => {
+            const container = document.getElementById('book-list');
+            books.forEach(book => {
+                const div = document.createElement('div');
+                div.className = 'book';
+                div.innerHTML = `
+                    <div class="book-title">${book.title}</div>
+                    <div class="book-author">${book.author}</div>
+                    <div class="book-price">${book.price} ₽</div>
+                    <button onclick="addToCart(${book.id})">Добавить в корзину</button>
+                `;
+                container.appendChild(div);
+            });
+        })
+        .catch(error => console.error('Ошибка при загрузке книг:', error));
+
+    // Пример обработчика добавления в корзину
+    function addToCart(bookId) {
+        alert('Книга ' + bookId + ' добавлена в корзину (пока просто демонстрация)');
+    }
+</script>
+</body>
+</html>
